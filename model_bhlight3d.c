@@ -510,7 +510,7 @@ void init_data(int argc, char *argv[])
 
     L_unit = GNEWT*MBH/(CL*CL);
     T_unit = L_unit/CL;
- 
+    M_unit *= (4 * M_PI * GNEWT * MBH * MP / ( 0.1 * CL * SIGMA_THOMSON ))*(T_unit / dMact ) * -1;
     Thetae_unit = MP/ME;
 
     //Thetae_unit = MP/ME*(gam-1.)*1./(1. + TP_OVER_TE);

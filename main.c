@@ -64,7 +64,7 @@ double max_tau_scatt, Ladv, dMact, bias_norm;
 void report_bad_input() 
 {
   fprintf(stderr, "usage: \n");
-  fprintf(stderr, "  HARM:    grmonty Ns fname M_unit[g] MBH[Msolar] Tp/Te\n");
+  fprintf(stderr, "  HARM:    grmonty Ns fname Mdot[Medd] MBH[Msolar] Tp/Te\n");
   fprintf(stderr, "  bhlight: grmonty Ns fname\n");
   exit(0);
 }
