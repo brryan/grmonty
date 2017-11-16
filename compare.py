@@ -12,11 +12,13 @@ fvalues="values.npy"
 points=np.load(fpoints)
 values=np.load(fvalues)
 
+parser.add_argument('dumpnam',type=str,help='Dump file location.')
 parser.add_argument('mdotp',type=float,help='Accretion rate (in Medd).')
 parser.add_argument('mp',type=float,help='Mass (in solar masses)')
 parser.add_argument('thetabin',type=int,help='Theta bin.')
 
 args = parser.parse_args()
+dumpnam=args.dumpnam
 logmp=log10(args.mp)
 logmdotp=log10(args.mdotp)
 thetabin=args.thetabin
@@ -37,7 +39,6 @@ lognulnu=[itp.interpn(points,values,(logmp,logmdotp,theta[thetabin],i),method="l
 nulnu=[pow(10,i) for i in lognulnu]
 
 #Run grmonty and import data in the exact same way the other plot program does.
-dumpnam="../grmhd_data/dump040"
 subprocess.call(["./grmonty", repr(nph), dumpnam, repr(args.mdotp), repr(args.mp), repr(1)])
 
 ME  = 9.1093897e-28

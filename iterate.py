@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from math import log10
 import subprocess
 
-dumpnam="../grmhd_data/dump040"
 fnam="grmonty.spec"
 
 # CGS constants
@@ -15,6 +14,7 @@ parser = argparse.ArgumentParser(description='Runs grmonty on a grid of the inpu
 
 ## Define input variables
 parser.add_argument('nph',type=int,help='Number of photons to use.')
+parser.add_argument('dumpnam',type=str,help='Dump file location.')
 # Accretion rates
 parser.add_argument('mdoti',type=float,help='Lower accretion limit (in Medd).')
 parser.add_argument('mdotf',type=float,help='Upper accretion limit (in Medd).')
@@ -27,6 +27,7 @@ parser.add_argument('nm',type=int,help='Amount of points to use (including initi
 # Take input variables
 args = parser.parse_args()
 nph=args.nph
+dumpnam=args.dumpnam
 mdoti=args.mdoti
 mdotf=args.mdotf
 nmdot=args.nmdot
