@@ -35,11 +35,13 @@ mi=args.mi
 mf=args.mf
 nm=args.nm
 
-# Hardcoded in grmonty, will change in the near future.
+## Hardcoded in grmonty, will change in the near future.
+# Observer angles
 thetai=0.3
 thetaf=100
 ntheta=6
 
+# Frequencies
 nui=1.2355897e8
 nuf=4.98969853e29
 nnu=200
@@ -51,21 +53,21 @@ theta=np.linspace(thetai,thetaf,num=ntheta)
 nu=np.logspace(log10(nui),log10(nuf),nnu)
 
 # Logarithm of the vectors for interpolation
-logm=[log10(i) for i in m]
-logmdot=[log10(i) for i in mdot]
-lognu=[log10(i) for i in nu]
+logm=map(log10,m)
+logmdot=map(log10,mdot)
+lognu=map(log10,nu)
 
 # Declare arrays
-values=np.empty((len(m),len(mdot),ntheta,nnu),dtype=float)
+values=np.empty((nm,nmdot,ntheta,nnu),dtype=float)
 points=[logm,logmdot,theta,lognu]
 
-#Call grmonty iteratively.
-for i in range(0,len(m)):
-    for j in range(0,len(mdot)):
+#Call grmonty iteratively and store results.
+for i in range(0,nm):
+    for j in range(0,nmdot):
         subprocess.call(["./grmonty", repr(nph), dumpnam, repr(mdot[j]), repr(m[i]), repr(1)])
         data=np.loadtxt(fnam)
         DNULNU = (len(data[0])-1)/ntheta
-        for k in range(0,len(theta)):
+        for k in range(0,ntheta):
             values[i][j][k][:]=data[:,1 + k*DNULNU]*LSUN
             for l in range(0,nnu):
                 if values[i][j][k][l]>0:

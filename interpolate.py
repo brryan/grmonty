@@ -4,28 +4,33 @@ import scipy.interpolate as itp
 from math import log10
 import matplotlib.pyplot as plt
 
+# Argument parser
 parser = argparse.ArgumentParser(description='Takes output points and values and evaluates and estimates spectra.')
 
-fpoints="points.npy"
-fvalues="values.npy"
-points=np.load(fpoints)
-values=np.load(fvalues)
+# Files containing grid and values
+points=np.load("points.npy")
+values=np.load("values.npy")
 
+## Define input variables
 parser.add_argument('mdotp',type=float,help='Accretion rate (in Medd).')
 parser.add_argument('mp',type=float,help='Mass (in solar masses)')
 parser.add_argument('thetap',type=float,help='Obersver angle (in degrees).')
 
+# Take input variables
 args = parser.parse_args()
 logmp=log10(args.mp)
 logmdotp=log10(args.mdotp)
 thetap=args.thetap
 
+## Hardcoded in grmonty, will change in the near future.
+# Observer angles
 thetai=0.3
 thetaf=100
 ntheta=6
 theta=np.linspace(thetai,thetaf,num=ntheta)
 print theta
 
+# Frequencies
 nui=1.2355897e8
 nuf=4.98969853e29
 nnu=200

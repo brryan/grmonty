@@ -7,10 +7,8 @@ import subprocess
 
 parser = argparse.ArgumentParser(description='Takes output points and values, estimates spectra, and compares it to grmonty output.')
 
-fpoints="points.npy"
-fvalues="values.npy"
-points=np.load(fpoints)
-values=np.load(fvalues)
+points=np.load("points.npy")
+values=np.load("values.npy")
 
 parser.add_argument('dumpnam',type=str,help='Dump file location.')
 parser.add_argument('mdotp',type=float,help='Accretion rate (in Medd).')
@@ -23,7 +21,8 @@ logmp=log10(args.mp)
 logmdotp=log10(args.mdotp)
 thetabin=args.thetabin
 
-nph=1e5
+nph=1e6
+
 nui=1.2355897e8
 nuf=4.98969853e29
 nnu=200
@@ -54,7 +53,7 @@ originalnu = 10.**(data[:,0])*ME*CL**2/HPL
 DNULNU = (len(data[0])-1)/N_THBINS # File format offset between theta bins
 originalnulnu = data[:,1 + BIN*DNULNU]*LSUN # erg s^-1
 
-diff=[abs(nulnu[i]-originalnulnu[i])/originalnulnu[i] for i in range(0,nnu)]
+diff=[abs(nulnu[i]/originalnulnu[i]-1) for i in range(0,nnu)]
 
 plt.figure(1)
 ax=plt.subplot(211)
