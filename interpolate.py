@@ -4,33 +4,29 @@ import scipy.interpolate as itp
 from math import log10
 import matplotlib.pyplot as plt
 
-# Argument parser
-parser = argparse.ArgumentParser(description='Takes output points and values and evaluates and estimates spectra.')
-
 # Files containing grid and values
 points=np.load("points.npy")
 values=np.load("values.npy")
 
-## Define input variables
+# Input
+parser = argparse.ArgumentParser(description='Takes output points and values and evaluates and estimates spectra.')
+
 parser.add_argument('mdotp',type=float,help='Accretion rate (in Medd).')
 parser.add_argument('mp',type=float,help='Mass (in solar masses)')
 parser.add_argument('thetap',type=float,help='Obersver angle (in degrees).')
 
-# Take input variables
 args = parser.parse_args()
 logmp=log10(args.mp)
 logmdotp=log10(args.mdotp)
 thetap=args.thetap
 
-## Hardcoded in grmonty, will change in the near future.
-# Observer angles
+# Observer angle vector
 thetai=0.3
 thetaf=100
 ntheta=6
-theta=np.linspace(thetai,thetaf,num=ntheta)
-print theta
+theta=np.linspace(thetai,thetaf,ntheta)
 
-# Frequencies
+# Frequencies vector
 nui=1.2355897e8
 nuf=4.98969853e29
 nnu=200
@@ -45,6 +41,6 @@ ax.step(nu,nulnu, where='mid', color='k', linewidth=1)
 ax.loglog()
 ax.set_xlim([1.e8, 1.e22])
 ax.set_ylim([1.e25, 1.e40])
-ax.set_xlabel(r'$\nu$'+' (Hz)')
-ax.set_ylabel(r'$\nu L\nu$'+' (erg s'+r'$^{-1}$'+')')
+ax.set_xlabel(r'$\nu$ (Hz)')
+ax.set_ylabel(r'$\nu L\nu$ (erg s$^{-1}$)')
 plt.show()
