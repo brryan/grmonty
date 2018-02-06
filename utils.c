@@ -5,6 +5,7 @@ void coord(int i, int j, int k, double *X);
 void get_fluid_zone(int i, int j, int k, double *Ne, double *Thetae, double *B,
         double Ucon[NDIM], double Bcon[NDIM]);
 
+//#define OLD_WGT (1)
 #define OLD_WGT (0)
 
 void init_model(int argc, char *argv[])
@@ -87,7 +88,7 @@ void init_weight_table(void)
     //#pragma omp for collapse(3)
     ZLOOP {
         get_fluid_zone(i, j, k, &Ne, &Thetae, &B, Ucon, Bcon);
-        if (Ne == 0. || Thetae < THETAE_MIN)
+        if (Ne == 0.)// || Thetae < THETAE_MIN)
           continue;
 
         K2 = K2_eval(Thetae);
@@ -135,12 +136,13 @@ void init_weight_table(void)
     //#pragma omp for collapse(3)
     ZLOOP {
       get_fluid_zone(i, j, k, &Ne, &Thetae, &B, Ucon, Bcon);
-        if (Ne == 0. || Thetae < THETAE_MIN)
-          continue;
+      if (Ne == 0.)// || Thetae < THETAE_MIN)
+        continue;
 
-        for (int l = lstart; l < lend; l++)
-          sum[l] += int_jnu(Ne, Thetae, B, nu[l])*sfac*geom[i][j].g;
+      for (int l = lstart; l < lend; l++) {
+        sum[l] += int_jnu(Ne, Thetae, B, nu[l])*sfac*geom[i][j].g;
       }
+    }
   } // omp parallel
 
 
@@ -230,7 +232,7 @@ void init_zone(int i, int j, int k, double *nz, double *dnmax)
 
   get_fluid_zone(i, j, k, &Ne, &Thetae, &Bmag, Ucon, Bcon);
 
-  if (Ne == 0. || Thetae < THETAE_MIN) {
+  if (Ne == 0.) {// || Thetae < THETAE_MIN) {
     *nz = 0.;
     *dnmax = 0.;
     return;
@@ -293,20 +295,18 @@ void init_zone(int i, int j, int k, double *nz, double *dnmax)
     *nz = 0.;
     *dnmax = 0.;
   }
-
-  printf("%i %i %i nz = %e\n", i,j,k,*nz);
 }
 #else
 void init_zone(int i, int j, int k, double *nz, double *dnmax)
 {
   //int l;
   double Ne, Thetae, Bmag;
-  double dn, ninterp, K2;
+  double dn, ninterp;
   double Ucon[NDIM], Bcon[NDIM];
 
   get_fluid_zone(i, j, k, &Ne, &Thetae, &Bmag, Ucon, Bcon);
 
-  if (Ne == 0. || Thetae < THETAE_MIN) {
+  if (Ne == 0.) {// || Thetae < THETAE_MIN) {
     *nz = 0.;
     *dnmax = 0.;
     return;
@@ -369,11 +369,11 @@ void init_zone(int i, int j, int k, double *nz, double *dnmax)
   }*/
 
   //*nz = geom[i][j].g * Ne * Bmag * Thetae * Thetae * ninterp / K2;
-  *nz = geom[i][j].g*ninterp;
+  *nz = geom[i][j].g*ninterp/omp_get_num_threads();
   if (*nz > Ns * log(NUMAX / NUMIN)) {
     fprintf(stderr,
-      "Something very wrong in zone %d %d: \ng = %g B=%g  Thetae=%g  K2=%g  ninterp=%g nz = %e\n\n",
-      i, j, geom[i][j].g, Bmag, Thetae, K2, ninterp, *nz);
+      "Something very wrong in zone %d %d: \ng = %g B=%g  Thetae=%g  ninterp=%g nz = %e\n\n",
+      i, j, geom[i][j].g, Bmag, Thetae, ninterp, *nz);
     exit(-1);
     *nz = 0.;
     *dnmax = 0.;

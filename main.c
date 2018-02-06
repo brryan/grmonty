@@ -61,14 +61,6 @@ double M_unit, L_unit, T_unit;
 double RHO_unit, U_unit, B_unit, Ne_unit, Thetae_unit;
 double max_tau_scatt, Ladv, dMact, bias_norm;
 
-void report_bad_input() 
-{
-  fprintf(stderr, "usage: \n");
-  fprintf(stderr, "  HARM:    grmonty Ns fname Mdot[Medd] MBH[Msolar] Tp/Te\n");
-  fprintf(stderr, "  bhlight: grmonty Ns fname\n");
-  exit(0);
-}
-
 int main(int argc, char *argv[])
 {
   //omp_set_num_threads(1);
@@ -77,7 +69,7 @@ int main(int argc, char *argv[])
   //struct of_photon ph;
   time_t currtime, starttime;
 
-  if (argc < 3) report_bad_input();
+  report_bad_input(argc);
 
   // Spectral bin parameters
   dlE = 0.25;   // bin width
@@ -91,6 +83,10 @@ int main(int argc, char *argv[])
   starttime = time(NULL);
   //quit_flag = 0;
 
+  printf("SYNCH: %i\n", SYNCHROTRON);
+  printf("BREMS: %i\n", BREMSSTRAHLUNG);
+  printf("COMPT: %i\n", COMPTON);
+
   fprintf(stderr, "Entering main loop...\n");
  
   // Get number of superphotons for each zone
@@ -103,7 +99,7 @@ int main(int argc, char *argv[])
   }*/
   
   int quit_flag = 0;
-  #pragma omp parallel
+  #pragma omp parallel private(spect)
   {
     struct of_photon ph;
     while (1) {
