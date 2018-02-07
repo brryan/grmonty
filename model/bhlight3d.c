@@ -468,7 +468,6 @@ void bl_coord(double *X, double *r, double *th)
   *th = thG + exp(mks_smooth*(startx[1] - X[1]))*(thJ - thG);
 }
 
-//double dOmega_func(double Xi[NDIM], double Xf[NDIM])
 double dOmega_func(int j)
 {
   double dbin = (stopx[2]-startx[2])/(2.*N_THBINS);
