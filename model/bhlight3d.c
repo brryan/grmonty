@@ -13,6 +13,9 @@ double ***thetae;
 double ***b;
 
 double TP_OVER_TE;
+// Added by Ricardo
+double Mdot,MdotEdd;
+// Added by Ricardo
 
 static double poly_norm, poly_xt, poly_alpha, mks_smooth, game, gamp;
 static double MBH;
@@ -546,9 +549,6 @@ void init_data(int argc, char *argv[])
       report_bad_input(argc);
     }
 
-// Added by Ricardo (just MdotEdd)
-    double Mdot,MdotEdd;
-// Added by Ricardo
     sscanf(argv[3], "%lf", &Mdot);
     sscanf(argv[4], "%lf", &MBH);
     sscanf(argv[5], "%lf", &TP_OVER_TE);
