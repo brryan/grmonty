@@ -145,8 +145,8 @@ extern double gam;
 extern double dMsim;
 
 // Added by Ricardo
-extern double Mdot;
-extern double MdotEdd;
+//extern double Mdot;
+//extern double MdotEdd;
 // Added by Ricardo
 
 extern double M_unit;

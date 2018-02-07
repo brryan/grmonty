@@ -14,7 +14,7 @@ double ***b;
 
 double TP_OVER_TE;
 // Added by Ricardo
-double Mdot,MdotEdd;
+double Mdot,MdotEdd,T_unit;
 // Added by Ricardo
 
 static double poly_norm, poly_xt, poly_alpha, mks_smooth, game, gamp;
