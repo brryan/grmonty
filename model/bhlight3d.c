@@ -546,8 +546,8 @@ void init_data(int argc, char *argv[])
       report_bad_input(argc);
     }
 
-// Added by Ricardo
-    double Mdot,MDOTEDD;
+// Added by Ricardo (just MdotEdd)
+    double Mdot,MdotEdd;
 // Added by Ricardo
     sscanf(argv[3], "%lf", &Mdot);
     sscanf(argv[4], "%lf", &MBH);
@@ -555,8 +555,8 @@ void init_data(int argc, char *argv[])
 
     MBH *= MSUN;
 // Added by Ricardo
-    MDOTEDD = 4 * M_PI * GNEWT * MBH * MP / ( 0.1 * CL * SIGMA_THOMSON );
-    Mdot *= MDOTEDD;
+    MdotEdd = 4 * M_PI * GNEWT * MBH * MP / ( 0.1 * CL * SIGMA_THOMSON );
+    Mdot *= MdotEdd;
 // Added by Ricardo
 
     L_unit = GNEWT*MBH/(CL*CL);
@@ -723,9 +723,9 @@ void report_spectrum(int N_superph_made)
     max_tau_scatt);
 
   double LEdd = 4.*M_PI*GNEWT*MBH*MP*CL/(SIGMA_THOMSON);
-  double MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
+//  double MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
   printf("MdotEdd = %e\n", MdotEdd);
-  double Mdot = dMact*M_unit/T_unit;
+//  double Mdot = dMact*M_unit/T_unit;
   double mdot = Mdot/MdotEdd;
   printf("Mdot = %e mdot = %e\n", Mdot, mdot);
   double Lum = L*LSUN;
