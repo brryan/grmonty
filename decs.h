@@ -144,6 +144,11 @@ extern double dlE, lE0;
 extern double gam;
 extern double dMsim;
 
+// Added by Ricardo
+extern double Mdot;
+extern double MdotEdd;
+// Added by Ricardo
+
 extern double M_unit;
 extern double L_unit;
 extern double T_unit;
