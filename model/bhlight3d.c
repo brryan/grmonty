@@ -538,7 +538,8 @@ void init_data(int argc, char *argv[])
     sscanf(argv[3], "%lf", &mdot);
     sscanf(argv[4], "%lf", &MBH);
     sscanf(argv[5], "%lf", &TP_OVER_TE);
-
+    
+    mdot = -1 * mdot;
     MBH *= MSUN;
     MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
     Mdot = mdot * MdotEdd;
@@ -607,7 +608,7 @@ void init_data(int argc, char *argv[])
 // Moved by Ricardo
 
 // Set remaining units and constants
-  M_unit = (Mdot * T_unit / dMact ) * -1;
+  M_unit = (Mdot * T_unit / dMact );
   RHO_unit = M_unit/pow(L_unit,3);
   U_unit = RHO_unit*CL*CL;
   B_unit = CL*sqrt(4.*M_PI*RHO_unit);
