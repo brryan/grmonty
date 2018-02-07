@@ -535,12 +535,13 @@ void init_data(int argc, char *argv[])
       report_bad_input(argc);
     }
   
-    sscanf(argv[3], "%lf", &M_unit);
+    sscanf(argv[3], "%lf", &mdot);
     sscanf(argv[4], "%lf", &MBH);
     sscanf(argv[5], "%lf", &TP_OVER_TE);
 
     MBH *= MSUN;
-
+    MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
+    Mdot = mdot * MdotEdd;
     L_unit = GNEWT*MBH/(CL*CL);
     T_unit = L_unit/CL;
 
@@ -550,22 +551,6 @@ void init_data(int argc, char *argv[])
       Thetae_unit = MP/ME*(gam-1.)*1./(1. + TP_OVER_TE);
     }
   }
-
-  // Set remaining units and constants
-  RHO_unit = M_unit/pow(L_unit,3);
-  U_unit = RHO_unit*CL*CL;
-  B_unit = CL*sqrt(4.*M_PI*RHO_unit);
-  Ne_unit = RHO_unit/(MP + ME);
-  max_tau_scatt = (6.*L_unit)*RHO_unit*0.4;
-  Rh = 1. + sqrt(1. - a * a);
-
-  printf("M_unit = %e\n", M_unit);
-  printf("Ne_unit = %e\n", Ne_unit);
-  printf("RHO_unit = %e\n", RHO_unit);
-  printf("L_unit = %e\n", L_unit);
-  printf("T_unit = %e\n", T_unit);
-  printf("B_unit = %e\n", B_unit);
-  printf("Thetae_unit = %e\n", Thetae_unit);
 
   // Allocate storage and set geometry
   double ****malloc_rank4_double(int n1, int n2, int n3, int n4);
@@ -618,6 +603,29 @@ void init_data(int argc, char *argv[])
   dMact /= 21.;
   Ladv /= 21.;
   bias_norm /= V;
+
+// Moved by Ricardo
+
+// Set remaining units and constants
+  M_unit = (Mdot * T_unit / dMact ) * -1;
+  RHO_unit = M_unit/pow(L_unit,3);
+  U_unit = RHO_unit*CL*CL;
+  B_unit = CL*sqrt(4.*M_PI*RHO_unit);
+  Ne_unit = RHO_unit/(MP + ME);
+  max_tau_scatt = (6.*L_unit)*RHO_unit*0.4;
+  Rh = 1. + sqrt(1. - a * a);
+
+  printf("M_unit = %e\n", M_unit);
+  printf("Ne_unit = %e\n", Ne_unit);
+  printf("RHO_unit = %e\n", RHO_unit);
+  printf("L_unit = %e\n", L_unit);
+  printf("T_unit = %e\n", T_unit);
+  printf("B_unit = %e\n", B_unit);
+  printf("Thetae_unit = %e\n", Thetae_unit);
+
+// Moved by Ricardo
+
+
   fprintf(stderr, "dMact: %g, Ladv: %g\n", dMact, Ladv);
 }
 
@@ -698,10 +706,10 @@ void report_spectrum(int N_superph_made)
     max_tau_scatt);
 
   double LEdd = 4.*M_PI*GNEWT*MBH*MP*CL/(SIGMA_THOMSON);
-  double MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
+//  double MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
   printf("MdotEdd = %e\n", MdotEdd);
-  double Mdot = dMact*M_unit/T_unit;
-  double mdot = Mdot/MdotEdd;
+//  double Mdot = dMact*M_unit/T_unit;
+//  double mdot = Mdot/MdotEdd;
   printf("Mdot = %e mdot = %e\n", Mdot, mdot);
   double Lum = L*LSUN;
   double lum = Lum/LEdd;
