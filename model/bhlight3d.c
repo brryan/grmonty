@@ -23,12 +23,23 @@ static int with_electrons;
 
 void report_bad_input(int argc) 
 {
+/*
   if (argc < 3) {
     fprintf(stderr, "usage: \n");
     fprintf(stderr, "  HARM:    grmonty Ns fname M_unit[g] MBH[Msolar] Tp/Te\n");
     fprintf(stderr, "  bhlight: grmonty Ns fname\n");
     exit(0);
   }
+*/
+
+// Modified by Ricardo
+  if (argc < 3) {
+    fprintf(stderr, "usage: \n");
+    fprintf(stderr, "  HARM:    grmonty Ns fname Mdot[Eddington] MBH[Msolar] Tp/Te\n");
+    fprintf(stderr, "  bhlight: grmonty Ns fname\n");
+    exit(0);
+  }
+// Modified by Ricardo
 }
 
 ///////////////////////////////// SUPERPHOTONS /////////////////////////////////
@@ -534,12 +545,19 @@ void init_data(int argc, char *argv[])
     if (argc < 6) {
       report_bad_input(argc);
     }
-  
-    sscanf(argv[3], "%lf", &M_unit);
+
+// Added by Ricardo
+    double Mdot,MDOTEDD;
+// Added by Ricardo
+    sscanf(argv[3], "%lf", &Mdot);
     sscanf(argv[4], "%lf", &MBH);
     sscanf(argv[5], "%lf", &TP_OVER_TE);
 
     MBH *= MSUN;
+// Added by Ricardo
+    MDOTEDD = 4 * M_PI * GNEWT * MBH * MP / ( 0.1 * CL * SIGMA_THOMSON );
+    Mdot *= MDOTEDD;
+// Added by Ricardo
 
     L_unit = GNEWT*MBH/(CL*CL);
     T_unit = L_unit/CL;
@@ -550,22 +568,6 @@ void init_data(int argc, char *argv[])
       Thetae_unit = MP/ME*(gam-1.)*1./(1. + TP_OVER_TE);
     }
   }
-
-  // Set remaining units and constants
-  RHO_unit = M_unit/pow(L_unit,3);
-  U_unit = RHO_unit*CL*CL;
-  B_unit = CL*sqrt(4.*M_PI*RHO_unit);
-  Ne_unit = RHO_unit/(MP + ME);
-  max_tau_scatt = (6.*L_unit)*RHO_unit*0.4;
-  Rh = 1. + sqrt(1. - a * a);
-
-  printf("M_unit = %e\n", M_unit);
-  printf("Ne_unit = %e\n", Ne_unit);
-  printf("RHO_unit = %e\n", RHO_unit);
-  printf("L_unit = %e\n", L_unit);
-  printf("T_unit = %e\n", T_unit);
-  printf("B_unit = %e\n", B_unit);
-  printf("Thetae_unit = %e\n", Thetae_unit);
 
   // Allocate storage and set geometry
   double ****malloc_rank4_double(int n1, int n2, int n3, int n4);
@@ -618,6 +620,29 @@ void init_data(int argc, char *argv[])
   dMact /= 21.;
   Ladv /= 21.;
   bias_norm /= V;
+
+// Added by Ricardo
+M_unit = ( Mdot * T_unit / dMact ) * -1;
+// Added by Ricardo
+
+// Moved by Ricardo
+// Set remaining units and constants
+  RHO_unit = M_unit/pow(L_unit,3);
+  U_unit = RHO_unit*CL*CL;
+  B_unit = CL*sqrt(4.*M_PI*RHO_unit);
+  Ne_unit = RHO_unit/(MP + ME);
+  max_tau_scatt = (6.*L_unit)*RHO_unit*0.4;
+  Rh = 1. + sqrt(1. - a * a);
+
+  printf("M_unit = %e\n", M_unit);
+  printf("Ne_unit = %e\n", Ne_unit);
+  printf("RHO_unit = %e\n", RHO_unit);
+  printf("L_unit = %e\n", L_unit);
+  printf("T_unit = %e\n", T_unit);
+  printf("B_unit = %e\n", B_unit);
+  printf("Thetae_unit = %e\n", Thetae_unit);
+// Moved by Ricardo
+
   fprintf(stderr, "dMact: %g, Ladv: %g\n", dMact, Ladv);
 }
 
