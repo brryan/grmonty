@@ -30,4 +30,4 @@ nuLnu_max = nuLnu.max()
 ax.set_ylim([1.e-10*nuLnu_max, 1.e1*nuLnu_max])
 ax.set_xlim([1.e8, 1.e24])
 plt.show()
-
+plt.savefig('spec.png')
