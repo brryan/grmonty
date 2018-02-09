@@ -27,8 +27,8 @@ ntheta=8
 theta=np.linspace(thetai,thetaf,ntheta)
 
 # Frequencies vector
-nui=1.2355897e8
-nuf=4.98969853e29
+nui=1e8
+nuf=1e24
 nnu=200
 nu=np.logspace(log10(nui),log10(nuf),nnu)
 lognu=map(log10,nu)

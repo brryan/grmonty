@@ -41,8 +41,8 @@ thetaf=100
 ntheta=6
 NVAR=8
 # Frequencies
-nui=1.2355897e8
-nuf=4.98969853e29
+nui=1e8
+nuf=1e24
 nnu=200
 
 #Create vectors for all variables,

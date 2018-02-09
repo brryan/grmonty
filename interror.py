@@ -11,6 +11,9 @@ FNULL = open(os.devnull, 'w')
 
 # CGS constants
 LSUN = 3.827e33
+ME   = 9.1093897e-28
+CL   = 2.99792458e10
+HPL  = 6.6260755e-27
 
 # Input
 parser = argparse.ArgumentParser(description='Runs grmonty interpolation using a grid of decreasing size.')
@@ -51,17 +54,20 @@ ntheta=6
 NVAR=8
 theta=np.linspace(thetai,thetaf,ntheta)
 thetap=theta[thetabin]
-# Frequencies
-nui=1.2355897e8
-nuf=4.98969853e29
-nnu=200
-nu=np.logspace(log10(nui),log10(nuf),nnu)
-lognu=map(log10,nu)
 
 # Run grmonty on the point of interest twice and get the error
 print("Currently running grmonty with N="+repr(nph)+", Mdot="+repr(mdotp)+", M="+repr(mp)+".")
 subprocess.call(["./grmonty", repr(nph), dumpnam, repr(mdotp), repr(mp), repr(1)],stdout=FNULL, stderr=subprocess.STDOUT)
 data=np.loadtxt(fnam)
+# Frequencies
+#nu = 10.**(data[:,0])*ME*CL**2/HPL
+#nnu=len(nu)
+nui=1e8
+nuf=1e24
+nnu=200
+nu=np.logspace(log(nui),log(nuf),nnu)
+lognu=map(log10,nu)
+
 nbin = (len(data[0])-1)/NVAR
 nulnu1=data[:,1 + thetabin*NVAR]*LSUN
 print("Currently running grmonty with N="+repr(nph)+", Mdot="+repr(mdotp)+", M="+repr(mp)+".")
