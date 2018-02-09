@@ -138,7 +138,7 @@ for i in range(0,nit):
 	ax1.plot(nu,np.array([averrors[i] for j in range(0,nnu)]),'--', color='k', linewidth=1,label=r'$\bar{\epsilon}$')
 	ax1.legend(loc="upper right")
 
-	plt.savefig('Plot1'+str(i).zfill(3)+'.png')
+	plt.savefig('Grid'+str(i).zfill(1)+'.png')
 	plt.show()
 	plt.clf()
 	plt.cla()
