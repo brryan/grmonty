@@ -23,7 +23,7 @@ thetap=args.thetap
 # Observer angle vector
 thetai=0.3
 thetaf=100
-ntheta=8
+ntheta=6
 theta=np.linspace(thetai,thetaf,ntheta)
 
 # Frequencies vector
@@ -39,8 +39,8 @@ ax = plt.subplot(1,1,1)
 ax.set_title(r'$\dot{M}=10^{%1.3f}\dot{M}_{Edd}$,   $M=10^{%1.3f}M_{Sun}$,  $\theta=%1.2f\degree$' %(logmdotp, logmp, thetap))
 ax.step(nu,nulnu, where='mid', color='k', linewidth=1)
 ax.loglog()
-ax.set_xlim([1.e8, 1.e22])
-ax.set_ylim([1.e25, 1.e40])
+ax.set_xlim([1.e8, 1.e24])
+ax.set_ylim([1.e28, 1.e35])
 ax.set_xlabel(r'$\nu$ (Hz)')
 ax.set_ylabel(r'$\nu L\nu$ (erg s$^{-1}$)')
 plt.show()
