@@ -58,9 +58,9 @@ double dlE, lE0;
 double gam;
 double dMsim;
 double M_unit, L_unit, T_unit;
-// Added by Ricardo
+
 double Mdot,MdotEdd,mdot;
-// Added by Ricardo
+
 double RHO_unit, U_unit, B_unit, Ne_unit, Thetae_unit;
 double max_tau_scatt, Ladv, dMact, bias_norm;
 

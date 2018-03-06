@@ -605,8 +605,6 @@ void init_data(int argc, char *argv[])
   Ladv /= 21.;
   bias_norm /= V;
 
-// Moved by Ricardo
-
 // Set remaining units and constants
   M_unit = (Mdot * T_unit / dMact );
   RHO_unit = M_unit/pow(L_unit,3);
@@ -623,9 +621,6 @@ void init_data(int argc, char *argv[])
   printf("T_unit = %e\n", T_unit);
   printf("B_unit = %e\n", B_unit);
   printf("Thetae_unit = %e\n", Thetae_unit);
-
-// Moved by Ricardo
-
 
   fprintf(stderr, "dMact: %g, Ladv: %g\n", dMact, Ladv);
 }
