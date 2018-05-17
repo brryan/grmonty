@@ -255,7 +255,18 @@ void get_fluid_zone(int i, int j, int k, double *Ne, double *Thetae, double *B,
   double Bp[NDIM], Vcon[NDIM], Vfac, VdotV, UdotBp;
   double sig ;
 
-  *Ne = p[KRHO][i][j][k] * Ne_unit;
+//  *Ne = p[KRHO][i][j][k] * Ne_unit;
+// Mask
+  if (i==5 && j ==5 && k==5)
+    {
+      *Ne = p[KRHO][i][j][k] * Ne_unit;
+    }
+  else
+    {
+      *Ne = 0.
+    }
+// Mask
+
   if (with_electrons) {
     *Thetae = p[KEL][i][j][k]*pow(p[KRHO][i][j][k],game-1.)*Thetae_unit;
   } else {
