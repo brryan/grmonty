@@ -1,0 +1,12 @@
+model.c
+model.h
+*.p
+*.png
+*.dat
+*.pyc
+grmonty
+interpolate.py
+iterate.py
+iterror.py
+plot2.py
+plot3.py
