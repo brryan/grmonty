@@ -255,17 +255,7 @@ void get_fluid_zone(int i, int j, int k, double *Ne, double *Thetae, double *B,
   double Bp[NDIM], Vcon[NDIM], Vfac, VdotV, UdotBp;
   double sig ;
 
-//  *Ne = p[KRHO][i][j][k] * Ne_unit;
-// Mask
-  if (i==5 && j ==5 && k==5)
-    {
-      *Ne = p[KRHO][i][j][k] * Ne_unit;
-    }
-  else
-    {
-      *Ne = 0.
-    }
-// Mask
+  *Ne = p[KRHO][i][j][k] * Ne_unit;
 
   if (with_electrons) {
     *Thetae = p[KEL][i][j][k]*pow(p[KRHO][i][j][k],game-1.)*Thetae_unit;
@@ -587,7 +577,28 @@ void init_data(int argc, char *argv[])
   }
 
   H5Fclose(file_id);
-
+  // Masking
+  if(1)
+  {
+    int i,j,k;
+    for(i=0;i<N1;i++)
+    {
+      for(j=0;j<N2;j++)
+      {
+        for(k=0;k<N3;k++)
+        {
+          if(!(i== 75 && j == 48 && k== 0))
+          {
+//            if(p[KRHO][i][j][k]>1e-35)
+//            {
+              p[KRHO][i][j][k] *= 1e-10;
+ //           }
+          }
+        }
+      }
+    }
+  }
+  // Masking
   V = dMact = Ladv = 0.;
   dV = dx[1]*dx[2]*dx[3];
   ZLOOP {
