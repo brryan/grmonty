@@ -540,7 +540,7 @@ void init_data(int argc, char *argv[])
     sscanf(argv[4], "%lf", &MBH);
     sscanf(argv[5], "%lf", &TP_OVER_TE);
     
-    mdot = -1 * mdot;
+    mdot *= -1.;
     MBH *= MSUN;
     MdotEdd = 4.*M_PI*GNEWT*MBH*MP/(SIGMA_THOMSON*CL*0.1);
     Mdot = mdot * MdotEdd;
