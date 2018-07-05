@@ -516,6 +516,7 @@ void sample_zone_photon(int i, int j, int k, double dnmax, struct of_photon *ph)
   ph->ne0 = Ne;
   ph->b0 = Bmag;
   ph->thetae0 = Thetae;
+  ph->ratio_brems = jnu_ratio_brems(nu, Ne, Thetae, Bmag, th);
 }
 #else
 void sample_zone_photon(int i, int j, int k, double dnmax, struct of_photon *ph)
@@ -542,7 +543,6 @@ void sample_zone_photon(int i, int j, int k, double dnmax, struct of_photon *ph)
   do {
     cth = 2. * monty_rand() - 1.;
     th = acos(cth);
-
   } while (monty_rand() >
      jnu(nu, Ne, Thetae, Bmag, th) / jmax);
 
@@ -591,6 +591,7 @@ void sample_zone_photon(int i, int j, int k, double dnmax, struct of_photon *ph)
   ph->ne0 = Ne;
   ph->b0 = Bmag;
   ph->thetae0 = Thetae;
+  ph->ratio_brems = jnu_ratio_brems(nu, Ne, Thetae, Bmag, th);
 }
 #endif
 

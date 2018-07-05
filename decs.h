@@ -23,6 +23,9 @@
 #define NUCUT (1.e14)
 #define GAMMACUT (1000.)
 
+#define N_COMPTBINS (3) // e.g., once, twice, >twice
+#define N_TYPEBINS (2*(N_COMPTBINS+1)) // synch & brems
+
 //#define NDIM  4
 //#define NPRIM 8
 
@@ -37,13 +40,7 @@
 #define THETAE_MIN  0.3
 //#define TP_OVER_TE  (3.)
 #define WEIGHT_MIN  (1.e28)
-
-#define SYNCHROTRON (1)
-#define BREMSSTRAHLUNG (0)
-#define COMPTON (0)
-#define KAPPA (5.)
-<<<<<<< HEAD
-#define DIST_KAPPA (0)*/
+*/
 
 /* mnemonics for primitive vars; conserved vars */
 /*#define KRHO     0
@@ -81,6 +78,7 @@ struct of_photon {
   double E0;
   double E0s;
   int nscatt;
+  double ratio_brems; // ratio_synch = 1 - ratio_brems
 };
 
 struct of_geom {
@@ -109,7 +107,7 @@ struct of_spectrum {
 //#define N_EBINS   200
 //#define N_THBINS  6
 
-extern struct of_spectrum spect[N_THBINS][N_EBINS];
+extern struct of_spectrum spect[N_TYPEBINS][N_THBINS][N_EBINS];
 #pragma omp threadprivate(spect)
 
 struct of_grid {
@@ -240,6 +238,8 @@ double jnu_inv(double nu, double thetae, double ne, double B,
 
   /* emissivity */
 double jnu(double nu, double Ne, double Thetae, double B,
+     double theta);
+double jnu_ratio_brems(double nu, double Ne, double Thetae, double B,
      double theta);
 double int_jnu(double Ne, double Thetae, double Bmag, double nu);
 void init_emiss_tables(void);

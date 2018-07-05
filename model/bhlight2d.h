@@ -9,7 +9,7 @@
 #define WEIGHT_MIN (1.e28)
 
 #define SYNCHROTRON (1)
-#define BREMSSTRAHLUNG (0)
+#define BREMSSTRAHLUNG (1)
 #define COMPTON (1)
 #define KAPPA (5.)
 #define DIST_KAPPA (0)
@@ -36,6 +36,6 @@
 #define N_EBINS 200
 #define N_THBINS 6
 
-#define HDF5_OUTPUT (0)
+#define HDF5_OUTPUT (1)
 #include "h5io.h"
 
